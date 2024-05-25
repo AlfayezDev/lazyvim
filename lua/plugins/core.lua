@@ -1,3 +1,3 @@
 return {
-  { "akinsho/bufferline.nvim", version = "4.5.2" },
+  { "akinsho/bufferline.nvim", version = "4.6.1" },
 }
