@@ -76,7 +76,7 @@ return {
           settings = {
             Lua = {
               workspace = {
-                checkThirdParty = false,
+                checkThirdParty = true,
               },
               codeLens = {
                 enable = true,
@@ -88,7 +88,7 @@ return {
                 privateName = { "^_" },
               },
               hint = {
-                enable = true,
+                enable = false,
                 setType = false,
                 paramType = true,
                 paramName = "Disable",
