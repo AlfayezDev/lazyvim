@@ -31,19 +31,6 @@ return {
           },
         },
       },
-      -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the inlay hints.
-      inlay_hints = {
-        enabled = true,
-        exclude = { "tsx", "ts" }, -- filetypes for which you don't want to enable inlay hints
-      },
-      -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the code lenses.
-      codelens = {
-        enabled = false,
-      },
       -- Enable lsp cursor word highlighting
       document_highlight = {
         enabled = true,
@@ -65,7 +52,6 @@ return {
         timeout_ms = nil,
       },
       -- LSP Server Settings
-      ---@type lspconfig.options
       servers = {
         lua_ls = {
           -- mason = false, -- set to false if you don't want this server to be installed with mason
@@ -136,32 +122,6 @@ return {
           name = "DiagnosticSign" .. name
           vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
         end
-      end
-    end
-
-    if vim.fn.has("nvim-0.10") == 1 then
-      -- inlay hints
-      if opts.inlay_hints.enabled then
-        LazyVim.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
-          if
-            vim.api.nvim_buf_is_valid(buffer)
-            and vim.bo[buffer].buftype == ""
-            and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
-          then
-            LazyVim.toggle.inlay_hints(buffer, true)
-          end
-        end)
-      end
-
-      -- code lens
-      if opts.codelens.enabled and vim.lsp.codelens then
-        LazyVim.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
-          vim.lsp.codelens.refresh()
-          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            buffer = buffer,
-            callback = vim.lsp.codelens.refresh,
-          })
-        end)
       end
     end
 
